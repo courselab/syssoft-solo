@@ -32,12 +32,11 @@ int main(void)
 
     printf("Date: ");
     printf(day_str);
-    printf("/");
+    printf("/month");
     printf(month_str);
-    printf("/");
+    printf("/century");
     printf(century_str);
     printf(year_str);
-    printf("END");
 
     return 0;
 }

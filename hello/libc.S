@@ -44,7 +44,7 @@ get_rtc_date:
     mov 6(%bp), %bx        # load pointer to year
     mov %cl, (%bx)         # store CL at *year
 
-    mov 8(%bp), %bx       # load pointer to month
+    mov 8(%bp), %bx        # load pointer to month
     mov %dh, (%bx)         # store DH at *month
 
     mov 10(%bp), %bx       # load pointer to day
