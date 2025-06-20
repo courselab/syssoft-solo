@@ -1,0 +1,9 @@
+Adicionado uma funcao `set_border_color`, que muda a cor do background com passagem de argumento
+
+A funcao recebe um `unsigned short color` (16 bit) passado via fastcall para evitar a stack e puxar direto de %cx
+
+Como o argumento de cor da BIOS %bl recebe apenas 8bits, podemos utilizar a versao 8bit do %cx chamado %cl
+
+Assim, para mudar o background para qualquer cor, basta mudar a variavel color em main.c para qualquer numero de 0-15
+
+Para obter esse resultado, primeiramente foi adicionado a funcao em `libc.S`, posteriormente foi criada uma `signature` para essa funcao em `stdio.h` usando __attribute__((fastcall)), apos isso, basta apenas criar uma variavel `unsigned short color` em main, dar um valor e chamar a `set_border_color()`.

@@ -12,6 +12,6 @@
 #define E8_H
 
 void __attribute__((fastcall, naked)) printf(const char *); 
-void get_rtc_date(unsigned char *century, unsigned char *year, unsigned char *month, unsigned char *day);
+void __attribute__((fastcall, naked)) set_border_color(unsigned short color);
 
 #endif	

@@ -10,7 +10,7 @@
 
 	.code16gcc
 	.global printf
-    .global get_rtc_date
+    .global set_border_color
 
 	.section .text
 
@@ -30,33 +30,11 @@ end:
     ret
 
 
-get_rtc_date:
-    push %bp
-    mov %sp, %bp
+set_border_color:
+    mov $0x0b, %ah       # Function: set border color
+    mov $0x00, %bh       # Display page number
+    mov %cl, %bl         # Border color (ex. 4 = red), fastcall argument in %cx, %cl = lower 8bit from %cx
+    int $0x10            # Call BIOS video interrupt
 
-    mov $0x04, %ah         # BIOS function 0x1A / AH=04h (Get date)
-    int $0x1A              # BIOS service 1 interruption
-                           # CH = century, CL = year, DH = month, DL = day (in BCD 8bit)
-
-    mov 4(%bp), %bx        # load pointer to century
-    mov %ch, (%bx)         # store CH at *century
-
-    mov 6(%bp), %bx        # load pointer to year
-    mov %cl, (%bx)         # store CL at *year
-
-    mov 8(%bp), %bx        # load pointer to month
-    mov %dh, (%bx)         # store DH at *month
-
-    mov 10(%bp), %bx       # load pointer to day
-    mov %dl, (%bx)         # store DL at *day
-
-    pop %bp
     ret
 
-# Stack layout
-#  0(%bp)   → old bp
-#  2(%bp)   → return address
-#  4(%bp)   → *century
-#  6(%bp)   → *year
-#  8(%bp)   → *month
-# 10(%bp)   → *day
